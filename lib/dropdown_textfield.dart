@@ -4,13 +4,11 @@ import 'package:collection/collection.dart';
 import 'package:dropdown_textfield/tooltip_widget.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class IconProperty {
   final IconData? icon;
   final Color? color;
   final double? size;
-
   IconProperty({this.icon, this.color, this.size});
 }
 
@@ -31,7 +29,6 @@ class CheckBoxProperty {
   final OutlinedBorder? shape;
   final BorderSide? side;
   static const double width = 18.0;
-
   CheckBoxProperty({
     this.tristate = false,
     this.mouseCursor,
@@ -101,7 +98,6 @@ class DropDownTextField extends StatefulWidget {
         submitButtonText = null,
         submitButtonTextStyle = null,
         super(key: key);
-
   const DropDownTextField.multiSelection(
       {Key? key,
       this.controller,
@@ -268,7 +264,6 @@ class _DropDownTextFieldState extends State<DropDownTextField>
   late AnimationController _controller;
   late Animation<double> _heightFactor;
   List<bool> _multiSelectionValue = [];
-
   // late String selectedItem;
   late double _height;
   late List<DropDownValueModel> _dropDownList;
@@ -286,7 +281,6 @@ class _DropDownTextFieldState extends State<DropDownTextField>
   late double _keyboardHeight;
   late TextStyle _listTileTextStyle;
   late ListPadding _listPadding;
-
   @override
   void initState() {
     _cnt = TextEditingController();
@@ -920,7 +914,6 @@ class _SingleSelectionState extends State<SingleSelection> {
   late TextEditingController _searchCnt;
   late FocusScopeNode _focusScopeNode;
   late InputDecoration _inpDec;
-
   onItemChanged(String value) {
     setState(() {
       if (value.isEmpty) {
@@ -1032,11 +1025,8 @@ class _SingleSelectionState extends State<SingleSelection> {
                       alignment: Alignment.centerRight,
                       child: FittedBox(
                         fit: BoxFit.fitHeight,
-                        child: newDropDownList[index].svgIcon != null
-                            ? SvgPicture.asset(newDropDownList[index].svgIcon!,width: 20,
-                              height: 20,)
-                            : Text(newDropDownList[index].name,
-                                style: widget.listTextStyle),
+                        child: Text(newDropDownList[index].name,
+                            style: widget.listTextStyle),
                       ),
                     ),
                   ),
@@ -1209,39 +1199,33 @@ class DropDownValueModel extends Equatable {
   final String name;
   final dynamic value;
   final String? svgIcon;
-
   ///as of now only added for multiselection dropdown
   final String? toolTipMsg;
 
   const DropDownValueModel(
-      {required this.name, required this.value, this.toolTipMsg, this.svgIcon});
+      {required this.name, required this.value, this.toolTipMsg,this.svgIcon});
 
   factory DropDownValueModel.fromJson(Map<String, dynamic> json) =>
       DropDownValueModel(
         name: json["name"],
         value: json["value"],
         toolTipMsg: json["toolTipMsg"],
-        svgIcon: json["svgIcon"],
       );
 
   Map<String, dynamic> toJson() => {
         "name": name,
         "value": value,
         "toolTipMsg": toolTipMsg,
-        "svgIcon": svgIcon,
       };
-
   @override
   List<Object> get props => [name, value];
 }
 
 class SingleValueDropDownController extends ChangeNotifier {
   DropDownValueModel? dropDownValue;
-
   SingleValueDropDownController({DropDownValueModel? data}) {
     setDropDown(data);
   }
-
   setDropDown(DropDownValueModel? model) {
     dropDownValue = model;
     notifyListeners();
@@ -1255,11 +1239,9 @@ class SingleValueDropDownController extends ChangeNotifier {
 
 class MultiValueDropDownController extends ChangeNotifier {
   List<DropDownValueModel>? dropDownValueList;
-
   MultiValueDropDownController({List<DropDownValueModel>? data}) {
     setDropDown(data);
   }
-
   setDropDown(List<DropDownValueModel>? modelList) {
     if (modelList != null && modelList.isNotEmpty) {
       List<DropDownValueModel> list = [];
@@ -1284,7 +1266,6 @@ class MultiValueDropDownController extends ChangeNotifier {
 class ListPadding {
   double top;
   double bottom;
-
   ListPadding({this.top = 15, this.bottom = 15});
 }
 
@@ -1293,12 +1274,10 @@ class KeyboardVisibilityBuilder extends StatefulWidget {
     BuildContext context,
     bool isKeyboardVisible,
   ) builder;
-
   const KeyboardVisibilityBuilder({
     Key? key,
     required this.builder,
   }) : super(key: key);
-
   @override
   _KeyboardVisibilityBuilderState createState() =>
       _KeyboardVisibilityBuilderState();
@@ -1307,7 +1286,6 @@ class KeyboardVisibilityBuilder extends StatefulWidget {
 class _KeyboardVisibilityBuilderState extends State<KeyboardVisibilityBuilder>
     with WidgetsBindingObserver {
   var _isKeyboardVisible = false;
-
   @override
   void initState() {
     super.initState();
