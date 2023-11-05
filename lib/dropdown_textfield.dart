@@ -1033,7 +1033,8 @@ class _SingleSelectionState extends State<SingleSelection> {
                       child: FittedBox(
                         fit: BoxFit.fitHeight,
                         child: newDropDownList[index].svgIcon != null
-                            ? SvgPicture.asset(newDropDownList[index].svgIcon!)
+                            ? SvgPicture.asset(newDropDownList[index].svgIcon!,width: 20,
+                              height: 20,)
                             : Text(newDropDownList[index].name,
                                 style: widget.listTextStyle),
                       ),
