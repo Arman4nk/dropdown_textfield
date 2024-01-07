@@ -756,8 +756,7 @@ class _DropDownTextFieldState extends State<DropDownTextField>
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius:
-                    BorderRadius.all(Radius.circular(widget.dropdownRadius)),
+                borderRadius: BorderRadius.all(Radius.circular(widget.dropdownRadius)),
                 boxShadow:  [
                   BoxShadow(
                     color: Colors.grey.shade500,
@@ -1096,7 +1095,7 @@ class _MultiSelectionState extends State<MultiSelection> {
       child: Column(
         children: [
           Container(
-            decoration: BoxDecoration(color:widget.listBackColor ,),
+            decoration: BoxDecoration(color:widget.listBackColor,borderRadius: BorderRadius.only(topLeft: Radius.circular(16),topRight: Radius.circular(16))),
             height: widget.height,
             child: Scrollbar(
               child: ListView.builder(
@@ -1172,7 +1171,10 @@ class _MultiSelectionState extends State<MultiSelection> {
             ),
           ),
           Container(
-            color: widget.listBackColor,
+            decoration: BoxDecoration(
+                color: widget.listBackColor,
+                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(16),bottomRight: Radius.circular(16))
+            ),
             child: Row(
               children: [
                 // const Expanded(
