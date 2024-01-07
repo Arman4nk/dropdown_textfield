@@ -851,12 +851,15 @@ class _DropDownTextFieldState extends State<DropDownTextField>
                         if (widget.multiController != null) {
                           widget.multiController!
                               .setDropDown(result.isNotEmpty ? result : null);
+                          hideOverlay();
+
                         }
                         if (widget.onChanged != null) {
                           widget.onChanged!(result);
+                          hideOverlay();
+
                         }
 
-                        hideOverlay();
 
                         setState(() {});
                       },
