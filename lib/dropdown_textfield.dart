@@ -1096,7 +1096,7 @@ class _MultiSelectionState extends State<MultiSelection> {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-       borderRadius: BorderRadius.circular(16.0),
+       borderRadius: BorderRadius.circular(12.0),
       child: Column(
         children: [
           Container(
