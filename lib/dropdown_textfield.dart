@@ -1091,14 +1091,12 @@ class _MultiSelectionState extends State<MultiSelection> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16.0)
-      ),
+    return ClipRRect(
+       borderRadius: BorderRadius.circular(16.0),
       child: Column(
         children: [
           Container(
-            decoration: BoxDecoration(color:widget.listBackColor ),
+            decoration: BoxDecoration(color:widget.listBackColor ,),
             height: widget.height,
             child: Scrollbar(
               child: ListView.builder(
