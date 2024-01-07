@@ -825,7 +825,7 @@ class _DropDownTextFieldState extends State<DropDownTextField>
                       dropDownList: _dropDownList,
                       listTextStyle: _listTileTextStyle,
                       listPadding: _listPadding,
-                      listBackColor:widget.listBackColor ,
+                      listBackColor:widget.listBackColor,
                       onChanged: (val) {
                         _isExpanded = !_isExpanded;
                         _multiSelectionValue = val;
@@ -1180,6 +1180,7 @@ class _MultiSelectionState extends State<MultiSelection> {
                 child: InkWell(
                   onTap: () => widget.onChanged(multiSelectionValue),
                   child: Container(
+                    color: widget.listBackColor,
                     alignment: Alignment.center,
                     // width: double.infinity,
                     height: widget.listTileHeight * 0.9,
