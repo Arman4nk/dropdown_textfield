@@ -1096,11 +1096,11 @@ class _MultiSelectionState extends State<MultiSelection> {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-       borderRadius: BorderRadius.circular(12.0),
+       borderRadius: BorderRadius.circular(8),
       child: Column(
         children: [
           Container(
-            decoration: BoxDecoration(color:widget.listBackColor,borderRadius: BorderRadius.only(topLeft: Radius.circular(12),topRight: Radius.circular(12))),
+            decoration: BoxDecoration(color:widget.listBackColor,borderRadius: BorderRadius.only(topLeft: Radius.circular(8),topRight: Radius.circular(8))),
             height: widget.height,
             child: Scrollbar(
               child: ListView.builder(
@@ -1178,7 +1178,7 @@ class _MultiSelectionState extends State<MultiSelection> {
           Container(
             decoration: BoxDecoration(
                 color: widget.listBackColor,
-                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(12),bottomRight: Radius.circular(12))
+                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(8),bottomRight: Radius.circular(8))
             ),
             child: Row(
               children: [
@@ -1199,7 +1199,7 @@ class _MultiSelectionState extends State<MultiSelection> {
                         decoration: BoxDecoration(
                             color: widget.buttonColor ?? Colors.green,
                             borderRadius:
-                                const BorderRadius.all(Radius.circular(12))),
+                                const BorderRadius.all(Radius.circular(8))),
                         child: Text(
                           widget.buttonText ?? "Ok",
                           style: widget.buttonTextStyle ??
