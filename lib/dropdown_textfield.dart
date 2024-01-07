@@ -851,15 +851,12 @@ class _DropDownTextFieldState extends State<DropDownTextField>
                         if (widget.multiController != null) {
                           widget.multiController!
                               .setDropDown(result.isNotEmpty ? result : null);
-                          hideOverlay();
-
                         }
                         if (widget.onChanged != null) {
                           widget.onChanged!(result);
-                          hideOverlay();
-
                         }
-
+                        Navigator.pop(context, null);
+                        hideOverlay();
 
                         setState(() {});
                       },
@@ -1096,6 +1093,7 @@ class _MultiSelectionState extends State<MultiSelection> {
     super.initState();
   }
 
+
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
@@ -1192,7 +1190,9 @@ class _MultiSelectionState extends State<MultiSelection> {
                   child: Padding(
                     padding: const EdgeInsets.only(right: 16.0, top: 15, bottom: 10.0,left: 16.0),
                     child: InkWell(
-                      onTap: () => widget.onChanged(multiSelectionValue),
+                      onTap: () {
+                        widget.onChanged(multiSelectionValue);
+                      },
                       child: Container(
                         alignment: Alignment.center,
                         // width: double.infinity,
