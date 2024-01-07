@@ -748,16 +748,18 @@ class _DropDownTextFieldState extends State<DropDownTextField>
         child: Material(
           color: Colors.transparent,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 5),
+            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 10),
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius:
                     BorderRadius.all(Radius.circular(widget.dropdownRadius)),
-                boxShadow: const [
+                boxShadow:  [
                   BoxShadow(
-                    color: Colors.grey,
-                    blurRadius: 5,
+                    color: Colors.grey.shade500,
+                    blurRadius:5,
+                    spreadRadius: 0,
+                    offset: Offset(0, 2)
                   ),
                 ],
               ),
@@ -1160,22 +1162,23 @@ class _MultiSelectionState extends State<MultiSelection> {
         ),
         Row(
           children: [
-            const Expanded(
-              child: SizedBox.shrink(),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(right: 8.0, top: 15, bottom: 10),
-              child: InkWell(
-                onTap: () => widget.onChanged(multiSelectionValue),
-                child: Container(
-                  height: widget.listTileHeight * 0.9,
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 5.0, horizontal: 12),
-                  decoration: BoxDecoration(
-                      color: widget.buttonColor ?? Colors.green,
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(12))),
-                  child: Align(
+            // const Expanded(
+            //   child: SizedBox.shrink(),
+            // ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(right: 16.0, top: 15, bottom: 10.0,left: 16.0),
+                child: InkWell(
+                  onTap: () => widget.onChanged(multiSelectionValue),
+                  child: Container(
+                    // width: double.infinity,
+                    height: widget.listTileHeight * 0.9,
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 5.0, horizontal: 12),
+                    decoration: BoxDecoration(
+                        color: widget.buttonColor ?? Colors.green,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(12))),
                     child: FittedBox(
                       fit: BoxFit.contain,
                       child: Text(

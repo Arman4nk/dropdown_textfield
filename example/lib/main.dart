@@ -72,6 +72,7 @@ class _TestPageState extends State<TestPage> {
                   height: 20,
                 ),
                 DropDownTextField(
+
                   // initialValue: "name4",
                   controller: _cnt,
                   clearOption: true,
@@ -87,7 +88,7 @@ class _TestPageState extends State<TestPage> {
                     }
                   },
                   dropDownItemCount: 6,
-                    svgViewer : SvgPicture.asset('assets/d.svg',width: 20,height: 20,),
+                    // svgViewer : SvgPicture.asset('assets/d.svg',width: 20,height: 20,),
                   dropDownList: const [
                     DropDownValueModel(name: '', value: "value1",svgIcon: 'assets/d.svg'),
                     DropDownValueModel(
