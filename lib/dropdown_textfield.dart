@@ -1171,6 +1171,7 @@ class _MultiSelectionState extends State<MultiSelection> {
                 child: InkWell(
                   onTap: () => widget.onChanged(multiSelectionValue),
                   child: Container(
+                    alignment: Alignment.center,
                     // width: double.infinity,
                     height: widget.listTileHeight * 0.9,
                     padding:
@@ -1179,13 +1180,10 @@ class _MultiSelectionState extends State<MultiSelection> {
                         color: widget.buttonColor ?? Colors.green,
                         borderRadius:
                             const BorderRadius.all(Radius.circular(12))),
-                    child: FittedBox(
-                      fit: BoxFit.contain,
-                      child: Text(
-                        widget.buttonText ?? "Ok",
-                        style: widget.buttonTextStyle ??
-                            const TextStyle(fontWeight: FontWeight.bold),
-                      ),
+                    child: Text(
+                      widget.buttonText ?? "Ok",
+                      style: widget.buttonTextStyle ??
+                          const TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),
