@@ -1153,7 +1153,6 @@ class _MultiSelectionState extends State<MultiSelection> {
                                         shape: widget.checkBoxProperty?.shape,
                                         side: widget.checkBoxProperty?.side,
                                       ),
-                                      SizedBox(width: 12.0),
                                       Expanded(
                                         child: Text(
                                             widget.dropDownList[index].name,
