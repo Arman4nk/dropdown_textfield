@@ -1169,37 +1169,39 @@ class _MultiSelectionState extends State<MultiSelection> {
                 }),
           ),
         ),
-        Row(
-          children: [
-            // const Expanded(
-            //   child: SizedBox.shrink(),
-            // ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(right: 16.0, top: 15, bottom: 10.0,left: 16.0),
-                child: InkWell(
-                  onTap: () => widget.onChanged(multiSelectionValue),
-                  child: Container(
-                    color: widget.listBackColor,
-                    alignment: Alignment.center,
-                    // width: double.infinity,
-                    height: widget.listTileHeight * 0.9,
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 5.0, horizontal: 12),
-                    decoration: BoxDecoration(
-                        color: widget.buttonColor ?? Colors.green,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(12))),
-                    child: Text(
-                      widget.buttonText ?? "Ok",
-                      style: widget.buttonTextStyle ??
-                          const TextStyle(fontWeight: FontWeight.bold),
+        Container(
+          color: widget.listBackColor,
+          child: Row(
+            children: [
+              // const Expanded(
+              //   child: SizedBox.shrink(),
+              // ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 16.0, top: 15, bottom: 10.0,left: 16.0),
+                  child: InkWell(
+                    onTap: () => widget.onChanged(multiSelectionValue),
+                    child: Container(
+                      alignment: Alignment.center,
+                      // width: double.infinity,
+                      height: widget.listTileHeight * 0.9,
+                      padding:
+                          const EdgeInsets.symmetric(vertical: 5.0, horizontal: 12),
+                      decoration: BoxDecoration(
+                          color: widget.buttonColor ?? Colors.green,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(12))),
+                      child: Text(
+                        widget.buttonText ?? "Ok",
+                        style: widget.buttonTextStyle ??
+                            const TextStyle(fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ],
     );
