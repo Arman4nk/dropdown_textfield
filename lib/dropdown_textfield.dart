@@ -776,7 +776,9 @@ class _DropDownTextFieldState extends State<DropDownTextField>
                       height: _height,
                       listTileHeight: _listTileHeight,
                       dropDownList: _dropDownList,
-                      listTextStyle: _listTileTextStyle,
+                listBackColor:widget.listBackColor,
+
+                listTextStyle: _listTileTextStyle,
                       onChanged: (item) {
                         setState(() {
                           _cnt.text = item.name;
@@ -888,6 +890,7 @@ class SingleSelection extends StatefulWidget {
       this.onSearchSubmit,
       this.listTextStyle,
       this.searchDecoration,
+      this.listBackColor,
       required this.listPadding,
       this.clearIconProperty})
       : super(key: key);
@@ -910,6 +913,7 @@ class SingleSelection extends StatefulWidget {
   final ListPadding listPadding;
   final InputDecoration? searchDecoration;
   final IconProperty? clearIconProperty;
+  final Color? listBackColor;
 
   @override
   State<SingleSelection> createState() => _SingleSelectionState();
@@ -966,7 +970,8 @@ class _SingleSelectionState extends State<SingleSelection> {
       mainAxisSize: MainAxisSize.min,
       children: [
         if (widget.enableSearch)
-          SizedBox(
+          Container(
+            color: widget.listBackColor,
             height: widget.searchHeight,
             child: Padding(
               padding: const EdgeInsets.all(12.0),
@@ -1095,7 +1100,7 @@ class _MultiSelectionState extends State<MultiSelection> {
       child: Column(
         children: [
           Container(
-            decoration: BoxDecoration(color:widget.listBackColor,borderRadius: BorderRadius.only(topLeft: Radius.circular(16),topRight: Radius.circular(16))),
+            decoration: BoxDecoration(color:widget.listBackColor,borderRadius: BorderRadius.only(topLeft: Radius.circular(12),topRight: Radius.circular(12))),
             height: widget.height,
             child: Scrollbar(
               child: ListView.builder(
@@ -1173,7 +1178,7 @@ class _MultiSelectionState extends State<MultiSelection> {
           Container(
             decoration: BoxDecoration(
                 color: widget.listBackColor,
-                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(16),bottomRight: Radius.circular(16))
+                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(12),bottomRight: Radius.circular(12))
             ),
             child: Row(
               children: [
