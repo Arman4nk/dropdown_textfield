@@ -855,7 +855,6 @@ class _DropDownTextFieldState extends State<DropDownTextField>
                         if (widget.onChanged != null) {
                           widget.onChanged!(result);
                         }
-                        Navigator.pop(context, null);
                         hideOverlay();
 
                         setState(() {});
