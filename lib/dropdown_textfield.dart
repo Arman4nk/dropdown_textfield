@@ -138,10 +138,11 @@ class DropDownTextField extends StatefulWidget {
               !(controller is MultiValueDropDownController)),
           "controller must be type of MultiValueDropDownController",
         ),
+
         multiController = controller,
         isMultiSelection = true,
         // enableSearch = true,
-         readOnly = true,
+         readOnly = false,
          searchAutofocus = false,
          searchKeyboardType = null,
          searchShowCursor = null,
@@ -1232,7 +1233,7 @@ class _MultiSelectionState extends State<MultiSelection> {
             child: Scrollbar(
               child: ListView.builder(
                   padding: EdgeInsets.zero,
-                  itemCount: widget.dropDownList.length,
+                  itemCount: newDropDownList.length,
                   itemBuilder: (BuildContext context, int index) {
                     return SizedBox(
                       height: widget.listTileHeight,
@@ -1255,8 +1256,7 @@ class _MultiSelectionState extends State<MultiSelection> {
                                         onChanged: (value) {
                                           if (value != null) {
                                             setState(() {
-                                              multiSelectionValue[index] =
-                                                  value;
+                                              multiSelectionValue[index] = value;
                                             });
                                           }
                                         },
@@ -1294,14 +1294,13 @@ class _MultiSelectionState extends State<MultiSelection> {
                                       ),
                                       Expanded(
                                         child: Text(
-                                            widget.dropDownList[index].name,
+                                            newDropDownList[index].name,
                                             style: widget.listTextStyle),
                                       ),
-                                      if (widget
-                                              .dropDownList[index].toolTipMsg !=
+                                      if (newDropDownList[index].toolTipMsg !=
                                           null)
                                         ToolTipWidget(
-                                            msg: widget.dropDownList[index]
+                                            msg: newDropDownList[index]
                                                 .toolTipMsg!)
                                     ],
                                   ),
