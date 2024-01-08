@@ -9,6 +9,7 @@ class IconProperty {
   final IconData? icon;
   final Color? color;
   final double? size;
+
   IconProperty({this.icon, this.color, this.size});
 }
 
@@ -29,6 +30,7 @@ class CheckBoxProperty {
   final OutlinedBorder? shape;
   final BorderSide? side;
   static const double width = 18.0;
+
   CheckBoxProperty({
     this.tristate = false,
     this.mouseCursor,
@@ -99,6 +101,7 @@ class DropDownTextField extends StatefulWidget {
         submitButtonText = null,
         submitButtonTextStyle = null,
         super(key: key);
+
   const DropDownTextField.multiSelection(
       {Key? key,
       this.controller,
@@ -268,6 +271,7 @@ class _DropDownTextFieldState extends State<DropDownTextField>
   late AnimationController _controller;
   late Animation<double> _heightFactor;
   List<bool> _multiSelectionValue = [];
+
   // late String selectedItem;
   late double _height;
   late List<DropDownValueModel> _dropDownList;
@@ -285,6 +289,7 @@ class _DropDownTextFieldState extends State<DropDownTextField>
   late double _keyboardHeight;
   late TextStyle _listTileTextStyle;
   late ListPadding _listPadding;
+
   @override
   void initState() {
     _cnt = TextEditingController();
@@ -756,14 +761,14 @@ class _DropDownTextFieldState extends State<DropDownTextField>
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(widget.dropdownRadius)),
-                boxShadow:  [
+                borderRadius:
+                    BorderRadius.all(Radius.circular(widget.dropdownRadius)),
+                boxShadow: [
                   BoxShadow(
-                    color: Colors.grey.shade500,
-                    blurRadius:5,
-                    spreadRadius: 0,
-                    offset: Offset(0, 2)
-                  ),
+                      color: Colors.grey.shade500,
+                      blurRadius: 5,
+                      spreadRadius: 0,
+                      offset: Offset(0, 2)),
                 ],
               ),
               child: !widget.isMultiSelection
@@ -776,9 +781,9 @@ class _DropDownTextFieldState extends State<DropDownTextField>
                       height: _height,
                       listTileHeight: _listTileHeight,
                       dropDownList: _dropDownList,
-                listBackColor:widget.listBackColor,
+                      listBackColor: widget.listBackColor,
 
-                listTextStyle: _listTileTextStyle,
+                      listTextStyle: _listTileTextStyle,
                       onChanged: (item) {
                         setState(() {
                           _cnt.text = item.name;
@@ -826,7 +831,18 @@ class _DropDownTextFieldState extends State<DropDownTextField>
                       dropDownList: _dropDownList,
                       listTextStyle: _listTileTextStyle,
                       listPadding: _listPadding,
-                      listBackColor:widget.listBackColor,
+                      listBackColor: widget.listBackColor,
+                      mainController: _cnt,
+                      searchHeight: _searchWidgetHeight,
+                      searchKeyboardType: widget.searchKeyboardType,
+                      searchAutofocus: _searchAutofocus,
+                      searchDecoration: widget.searchDecoration,
+                      searchShowCursor: widget.searchShowCursor,
+                      clearIconProperty: widget.clearIconProperty,
+                      autoSort: !widget.readOnly,
+                      mainFocusNode: _textFieldFocusNode,
+                      searchFocusNode: _searchFocusNode,
+                      enableSearch: widget.enableSearch,
                       onChanged: (val) {
                         _isExpanded = !_isExpanded;
                         _multiSelectionValue = val;
@@ -923,6 +939,7 @@ class _SingleSelectionState extends State<SingleSelection> {
   late TextEditingController _searchCnt;
   late FocusScopeNode _focusScopeNode;
   late InputDecoration _inpDec;
+
   onItemChanged(String value) {
     setState(() {
       if (value.isEmpty) {
@@ -1057,6 +1074,10 @@ class MultiSelection extends StatefulWidget {
       required this.dropDownList,
       required this.list,
       required this.height,
+      required this.enableSearch,
+      required this.searchHeight,
+      required this.searchFocusNode,
+      required this.mainFocusNode,
       this.buttonColor,
       this.buttonText,
       this.buttonTextStyle,
@@ -1064,6 +1085,15 @@ class MultiSelection extends StatefulWidget {
       required this.listPadding,
       this.listTextStyle,
       this.listBackColor,
+      this.searchShowCursor,
+      this.searchKeyboardType,
+      this.searchDecoration,
+      required this.searchAutofocus,
+      required this.autoSort,
+      required this.mainController,
+      this.onSearchTap,
+      this.onSearchSubmit,
+      this.clearIconProperty,
       this.checkBoxProperty})
       : super(key: key);
   final List<DropDownValueModel> dropDownList;
@@ -1076,8 +1106,21 @@ class MultiSelection extends StatefulWidget {
   final TextStyle? buttonTextStyle;
   final double listTileHeight;
   final TextStyle? listTextStyle;
+  final bool enableSearch;
   final ListPadding listPadding;
   final CheckBoxProperty? checkBoxProperty;
+  final double searchHeight;
+  final FocusNode searchFocusNode;
+  final FocusNode mainFocusNode;
+  final bool? searchShowCursor;
+  final TextInputType? searchKeyboardType;
+  final InputDecoration? searchDecoration;
+  final bool searchAutofocus;
+  final bool autoSort;
+  final TextEditingController mainController;
+  final Function? onSearchTap;
+  final IconProperty? clearIconProperty;
+  final Function? onSearchSubmit;
 
   @override
   _MultiSelectionState createState() => _MultiSelectionState();
@@ -1085,22 +1128,103 @@ class MultiSelection extends StatefulWidget {
 
 class _MultiSelectionState extends State<MultiSelection> {
   List<bool> multiSelectionValue = [];
+  late List<DropDownValueModel> newDropDownList;
+
+  late TextEditingController _searchCnt;
+  late FocusScopeNode _focusScopeNode;
+  late InputDecoration _inpDec;
+
+  onItemChanged(String value) {
+    setState(() {
+      if (value.isEmpty) {
+        newDropDownList = List.from(widget.dropDownList);
+      } else {
+        newDropDownList = widget.dropDownList
+            .where(
+                (item) => item.name.toLowerCase().contains(value.toLowerCase()))
+            .toList();
+      }
+    });
+  }
 
   @override
   void initState() {
     multiSelectionValue = List.from(widget.list);
+    _focusScopeNode = FocusScopeNode();
+    _inpDec = widget.searchDecoration ?? InputDecoration();
+    if (widget.searchAutofocus) {
+      widget.searchFocusNode.requestFocus();
+    }
+    _focusScopeNode.requestFocus();
+    newDropDownList = List.from(widget.dropDownList);
+    _searchCnt = TextEditingController();
+    if (widget.autoSort) {
+      onItemChanged(widget.mainController.text);
+      widget.mainController.addListener(() {
+        if (mounted) {
+          onItemChanged(widget.mainController.text);
+        }
+      });
+    }
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-       borderRadius: BorderRadius.circular(8),
+      borderRadius: BorderRadius.circular(8),
       child: Column(
         children: [
+          if (widget.enableSearch)
+            Container(
+              color: widget.listBackColor,
+              height: widget.searchHeight,
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: TextField(
+                  focusNode: widget.searchFocusNode,
+                  showCursor: widget.searchShowCursor,
+                  keyboardType: widget.searchKeyboardType,
+                  controller: _searchCnt,
+                  onTap: () {
+                    if (widget.onSearchTap != null) {
+                      widget.onSearchTap!();
+                    }
+                  },
+                  decoration: _inpDec.copyWith(
+                    hintText: _inpDec.hintText ?? 'Search Here...',
+                    suffixIcon: GestureDetector(
+                      onTap: () {
+                        widget.mainFocusNode.requestFocus();
+                        _searchCnt.clear();
+                        onItemChanged("");
+                      },
+                      child: widget.searchFocusNode.hasFocus
+                          ? InkWell(
+                              child: Icon(
+                                widget.clearIconProperty?.icon ?? Icons.close,
+                                size: widget.clearIconProperty?.size,
+                                color: widget.clearIconProperty?.color,
+                              ),
+                            )
+                          : const SizedBox.shrink(),
+                    ),
+                  ),
+                  onChanged: onItemChanged,
+                  onSubmitted: (val) {
+                    widget.mainFocusNode.requestFocus();
+                    if (widget.onSearchSubmit != null) {
+                      widget.onSearchSubmit!();
+                    }
+                  },
+                ),
+              ),
+            ),
           Container(
-            decoration: BoxDecoration(color:widget.listBackColor,borderRadius: BorderRadius.only(topLeft: Radius.circular(8),topRight: Radius.circular(8))),
+            decoration: BoxDecoration(
+                color: widget.listBackColor,
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(8), topRight: Radius.circular(8))),
             height: widget.height,
             child: Scrollbar(
               child: ListView.builder(
@@ -1128,27 +1252,40 @@ class _MultiSelectionState extends State<MultiSelection> {
                                         onChanged: (value) {
                                           if (value != null) {
                                             setState(() {
-                                              multiSelectionValue[index] = value;
+                                              multiSelectionValue[index] =
+                                                  value;
                                             });
                                           }
                                         },
                                         tristate:
-                                        widget.checkBoxProperty?.tristate ?? false,
-                                        mouseCursor: widget.checkBoxProperty?.mouseCursor,
-                                        activeColor: widget.checkBoxProperty?.activeColor,
-                                        fillColor: widget.checkBoxProperty?.fillColor,
-                                        checkColor: widget.checkBoxProperty?.checkColor,
-                                        focusColor: widget.checkBoxProperty?.focusColor,
-                                        hoverColor: widget.checkBoxProperty?.hoverColor,
-                                        overlayColor: widget.checkBoxProperty?.overlayColor,
-                                        splashRadius: widget.checkBoxProperty?.splashRadius,
-                                        materialTapTargetSize:
-                                        widget.checkBoxProperty?.materialTapTargetSize,
-                                        visualDensity:
-                                        widget.checkBoxProperty?.visualDensity,
-                                        focusNode: widget.checkBoxProperty?.focusNode,
-                                        autofocus:
-                                        widget.checkBoxProperty?.autofocus ?? false,
+                                            widget.checkBoxProperty?.tristate ??
+                                                false,
+                                        mouseCursor: widget
+                                            .checkBoxProperty?.mouseCursor,
+                                        activeColor: widget
+                                            .checkBoxProperty?.activeColor,
+                                        fillColor:
+                                            widget.checkBoxProperty?.fillColor,
+                                        checkColor:
+                                            widget.checkBoxProperty?.checkColor,
+                                        focusColor:
+                                            widget.checkBoxProperty?.focusColor,
+                                        hoverColor:
+                                            widget.checkBoxProperty?.hoverColor,
+                                        overlayColor: widget
+                                            .checkBoxProperty?.overlayColor,
+                                        splashRadius: widget
+                                            .checkBoxProperty?.splashRadius,
+                                        materialTapTargetSize: widget
+                                            .checkBoxProperty
+                                            ?.materialTapTargetSize,
+                                        visualDensity: widget
+                                            .checkBoxProperty?.visualDensity,
+                                        focusNode:
+                                            widget.checkBoxProperty?.focusNode,
+                                        autofocus: widget
+                                                .checkBoxProperty?.autofocus ??
+                                            false,
                                         shape: widget.checkBoxProperty?.shape,
                                         side: widget.checkBoxProperty?.side,
                                       ),
@@ -1157,11 +1294,12 @@ class _MultiSelectionState extends State<MultiSelection> {
                                             widget.dropDownList[index].name,
                                             style: widget.listTextStyle),
                                       ),
-                                      if (widget.dropDownList[index].toolTipMsg !=
+                                      if (widget
+                                              .dropDownList[index].toolTipMsg !=
                                           null)
                                         ToolTipWidget(
-                                            msg: widget
-                                                .dropDownList[index].toolTipMsg!)
+                                            msg: widget.dropDownList[index]
+                                                .toolTipMsg!)
                                     ],
                                   ),
                                 ),
@@ -1177,8 +1315,9 @@ class _MultiSelectionState extends State<MultiSelection> {
           Container(
             decoration: BoxDecoration(
                 color: widget.listBackColor,
-                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(8),bottomRight: Radius.circular(8))
-            ),
+                borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(8),
+                    bottomRight: Radius.circular(8))),
             child: Row(
               children: [
                 // const Expanded(
@@ -1186,7 +1325,8 @@ class _MultiSelectionState extends State<MultiSelection> {
                 // ),
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.only(right: 16.0, top: 15, bottom: 10.0,left: 16.0),
+                    padding: const EdgeInsets.only(
+                        right: 16.0, top: 15, bottom: 10.0, left: 16.0),
                     child: InkWell(
                       onTap: () {
                         widget.onChanged(multiSelectionValue);
@@ -1195,8 +1335,8 @@ class _MultiSelectionState extends State<MultiSelection> {
                         alignment: Alignment.center,
                         // width: double.infinity,
                         height: widget.listTileHeight * 0.9,
-                        padding:
-                            const EdgeInsets.symmetric(vertical: 5.0, horizontal: 12),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 5.0, horizontal: 12),
                         decoration: BoxDecoration(
                             color: widget.buttonColor ?? Colors.green,
                             borderRadius:
@@ -1223,11 +1363,12 @@ class DropDownValueModel extends Equatable {
   final String name;
   final dynamic value;
   final String? svgIcon;
+
   ///as of now only added for multiselection dropdown
   final String? toolTipMsg;
 
   const DropDownValueModel(
-      {required this.name, required this.value, this.toolTipMsg,this.svgIcon});
+      {required this.name, required this.value, this.toolTipMsg, this.svgIcon});
 
   factory DropDownValueModel.fromJson(Map<String, dynamic> json) =>
       DropDownValueModel(
@@ -1241,15 +1382,18 @@ class DropDownValueModel extends Equatable {
         "value": value,
         "toolTipMsg": toolTipMsg,
       };
+
   @override
   List<Object> get props => [name, value];
 }
 
 class SingleValueDropDownController extends ChangeNotifier {
   DropDownValueModel? dropDownValue;
+
   SingleValueDropDownController({DropDownValueModel? data}) {
     setDropDown(data);
   }
+
   setDropDown(DropDownValueModel? model) {
     dropDownValue = model;
     notifyListeners();
@@ -1263,9 +1407,11 @@ class SingleValueDropDownController extends ChangeNotifier {
 
 class MultiValueDropDownController extends ChangeNotifier {
   List<DropDownValueModel>? dropDownValueList;
+
   MultiValueDropDownController({List<DropDownValueModel>? data}) {
     setDropDown(data);
   }
+
   setDropDown(List<DropDownValueModel>? modelList) {
     if (modelList != null && modelList.isNotEmpty) {
       List<DropDownValueModel> list = [];
@@ -1290,6 +1436,7 @@ class MultiValueDropDownController extends ChangeNotifier {
 class ListPadding {
   double top;
   double bottom;
+
   ListPadding({this.top = 15, this.bottom = 15});
 }
 
@@ -1298,10 +1445,12 @@ class KeyboardVisibilityBuilder extends StatefulWidget {
     BuildContext context,
     bool isKeyboardVisible,
   ) builder;
+
   const KeyboardVisibilityBuilder({
     Key? key,
     required this.builder,
   }) : super(key: key);
+
   @override
   _KeyboardVisibilityBuilderState createState() =>
       _KeyboardVisibilityBuilderState();
@@ -1310,6 +1459,7 @@ class KeyboardVisibilityBuilder extends StatefulWidget {
 class _KeyboardVisibilityBuilderState extends State<KeyboardVisibilityBuilder>
     with WidgetsBindingObserver {
   var _isKeyboardVisible = false;
+
   @override
   void initState() {
     super.initState();
