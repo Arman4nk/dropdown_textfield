@@ -119,6 +119,7 @@ class DropDownTextField extends StatefulWidget {
       this.dropDownItemCount = 6,
       this.searchFocusNode,
       this.textFieldFocusNode,
+      this.enableSearch = false,
       this.listSpace = 0,
       this.clearOption = true,
       this.clearIconProperty,
@@ -139,15 +140,15 @@ class DropDownTextField extends StatefulWidget {
         ),
         multiController = controller,
         isMultiSelection = true,
-        enableSearch = false,
-        readOnly = true,
-        searchAutofocus = false,
-        searchKeyboardType = null,
-        searchShowCursor = null,
-        singleController = null,
-        searchDecoration = null,
-        keyboardType = null,
-        // keyboardHeight = 0,
+        // enableSearch = true,
+         readOnly = true,
+         searchAutofocus = false,
+         searchKeyboardType = null,
+         searchShowCursor = null,
+         singleController = null,
+         searchDecoration = null,
+         keyboardType = null,
+         // keyboardHeight = 0,
         super(key: key);
 
   ///single and multiple dropdown controller.
@@ -169,6 +170,9 @@ class DropDownTextField extends StatefulWidget {
   ///dropDownList,List of dropdown values
   ///List<DropDownValueModel>
   final List<DropDownValueModel> dropDownList;
+
+  ///by setting enableSearch=true enable search option in dropdown,as of now this feature enabled only for single selection dropdown
+  final bool enableSearch;
 
   ///function,called when value selected from dropdown.
   ///for single Selection Dropdown it will return single DropDownValueModel object,
@@ -193,7 +197,6 @@ class DropDownTextField extends StatefulWidget {
   final FormFieldValidator<String>? validator;
 
   ///by setting enableSearch=true enable search option in dropdown,as of now this feature enabled only for single selection dropdown
-  final bool enableSearch;
 
   final bool readOnly;
 
