@@ -1186,7 +1186,7 @@ class _MultiSelectionState extends State<MultiSelection> {
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: TextField(
-                  focusNode: widget.searchFocusNode,
+                  // focusNode: widget.searchFocusNode,
                   showCursor: widget.searchShowCursor,
                   keyboardType: widget.searchKeyboardType,
                   controller: _searchCnt,
