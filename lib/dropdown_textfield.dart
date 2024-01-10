@@ -875,9 +875,7 @@ class _DropDownTextFieldState extends State<DropDownTextField>
                         if (widget.onChanged != null) {
                           widget.onChanged!(result);
                         }
-                        Navigator.pop(context, null);
                         hideOverlay();
-
                         setState(() {});
                       },
                       checkBoxProperty: widget.checkBoxProperty,
@@ -1141,7 +1139,7 @@ class _MultiSelectionState extends State<MultiSelection> {
   final temp = {};
   onItemChanged(String value) {
     setState(() {
-      if (value.isEmpty) {
+      if (value.isEmpty && value != '') {
         newDropDownList = List.from(widget.dropDownList);
       } else {
         newDropDownList = widget.dropDownList
