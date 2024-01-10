@@ -1137,7 +1137,7 @@ class _MultiSelectionState extends State<MultiSelection> {
   late TextEditingController _searchCnt;
   late FocusScopeNode _focusScopeNode;
   late InputDecoration _inpDec;
-
+  final temp = {};
   onItemChanged(String value) {
     setState(() {
       if (value.isEmpty) {
@@ -1156,10 +1156,10 @@ class _MultiSelectionState extends State<MultiSelection> {
     multiSelectionValue = List.from(widget.list);
     _focusScopeNode = FocusScopeNode();
     _inpDec = widget.searchDecoration ?? InputDecoration();
-    if (widget.searchAutofocus) {
-      widget.searchFocusNode.requestFocus();
-    }
-    _focusScopeNode.requestFocus();
+    // if (widget.searchAutofocus) {
+    //   widget.searchFocusNode.requestFocus();
+    // }
+    // _focusScopeNode.requestFocus();
     newDropDownList = List.from(widget.dropDownList);
     _searchCnt = TextEditingController();
     if (widget.autoSort) {

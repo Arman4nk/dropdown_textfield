@@ -65,7 +65,7 @@ class _TestPageState extends State<TestPage> {
                   enableSearch: true,
 
                   // controller: _cntMulti,
-                  initialValue: const ["name1", "name2", "name8", "name3"],
+                  // initialValue: const ["name1", "name2", "name8", "name3"],
                   dropDownList: const [
                     DropDownValueModel(name: 'name1', value: "value1"),
                     DropDownValueModel(
