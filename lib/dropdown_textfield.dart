@@ -1013,7 +1013,8 @@ class _SingleSelectionState extends State<SingleSelection> {
               ),
             ),
           ),
-        SizedBox(
+        Container(
+          color: widget.listBackColor,
           height: widget.height,
           child: Scrollbar(
             child: ListView.builder(
