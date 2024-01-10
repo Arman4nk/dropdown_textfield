@@ -975,6 +975,10 @@ class _SingleSelectionState extends State<SingleSelection> {
             child: Padding(
               padding: const EdgeInsets.all(12.0),
               child: TextField(
+                style: TextStyle(
+                  fontSize: 12.0,
+                  fontWeight: FontWeight.normal,
+                ),
                 focusNode: widget.searchFocusNode,
                 showCursor: widget.searchShowCursor,
                 keyboardType: widget.searchKeyboardType,
