@@ -61,8 +61,11 @@ class _TestPageState extends State<TestPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                const SizedBox(
+                  height: 50,
+                ),
                 DropDownTextField.multiSelection(
-                  // enableSearch: true,
+                  enableSearch: true,
 
                   // controller: _cntMulti,
                   // initialValue: const ["name1", "name2", "name8", "name3"],
