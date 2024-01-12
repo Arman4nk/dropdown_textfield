@@ -828,7 +828,6 @@ class _DropDownTextFieldState extends State<DropDownTextField>
                       buttonColor: widget.submitButtonColor,
                       height: _height,
                       listTileHeight: _listTileHeight,
-                      list: _multiSelectionValue,
                       dropDownList: _dropDownList,
                       listTextStyle: _listTileTextStyle,
                       listPadding: _listPadding,
@@ -873,36 +872,29 @@ class _DropDownTextFieldState extends State<DropDownTextField>
                       // },
                       clearIconProperty: widget.clearIconProperty,
                       onChanged: (val) {
-                        _isExpanded = !_isExpanded;
-                        _multiSelectionValue = val;
-                        List<DropDownValueModel> result = [];
-                        List completeList = [];
-                        for (int i = 0; i < _multiSelectionValue.length; i++) {
-                          if (_multiSelectionValue[i]) {
-                            result.add(_dropDownList[i]);
-                            completeList.add(_dropDownList[i].name);
+                        if (val is List<DropDownValueModel>) {
+                          _isExpanded = !_isExpanded;
+                          List<DropDownValueModel> result = val;
+                          List completeList = val.map((e) => e.name).toList();
+
+                          int count = val.length;
+
+                          _cnt.text = (count == 0
+                              ? ""
+                              : widget.displayCompleteItem
+                                  ? completeList.join(",")
+                                  : "$count item selected");
+                          if (widget.multiController != null) {
+                            widget.multiController!
+                                .setDropDown(result.isNotEmpty ? result : null);
                           }
-                        }
-                        int count = _multiSelectionValue
-                            .where((element) => element)
-                            .toList()
-                            .length;
+                          if (widget.onChanged != null) {
+                            widget.onChanged!(result);
+                          }
+                          hideOverlay();
 
-                        _cnt.text = (count == 0
-                            ? ""
-                            : widget.displayCompleteItem
-                                ? completeList.join(",")
-                                : "$count item selected");
-                        if (widget.multiController != null) {
-                          widget.multiController!
-                              .setDropDown(result.isNotEmpty ? result : null);
+                          setState(() {});
                         }
-                        if (widget.onChanged != null) {
-                          widget.onChanged!(result);
-                        }
-                        hideOverlay();
-
-                        setState(() {});
                       },
                       checkBoxProperty: widget.checkBoxProperty,
                     ),
@@ -1106,7 +1098,6 @@ class MultiSelection extends StatefulWidget {
       {Key? key,
       required this.onChanged,
       required this.dropDownList,
-      required this.list,
       required this.height,
       this.buttonColor,
       this.buttonText,
@@ -1132,7 +1123,6 @@ class MultiSelection extends StatefulWidget {
       : super(key: key);
   final List<DropDownValueModel> dropDownList;
   final ValueSetter onChanged;
-  final List<bool> list;
   final double height;
   final Color? listBackColor;
   final Color? buttonColor;
@@ -1161,7 +1151,7 @@ class MultiSelection extends StatefulWidget {
 }
 
 class _MultiSelectionState extends State<MultiSelection> {
-  List<bool> multiSelectionValue = [];
+  //List<bool> multiSelectionValue = [];
   late List<DropDownValueModel> newDropDownList;
   late TextEditingController _searchCnt;
   late FocusScopeNode _focusScopeNode;
@@ -1182,7 +1172,7 @@ class _MultiSelectionState extends State<MultiSelection> {
 
   @override
   void initState() {
-    multiSelectionValue = List.from(widget.list);
+    //  multiSelectionValue = List.from(widget.list);
     _focusScopeNode = FocusScopeNode();
     _inpDec = widget.searchDecoration ?? InputDecoration();
     if (widget.searchAutofocus) {
@@ -1238,12 +1228,12 @@ class _MultiSelectionState extends State<MultiSelection> {
                       },
                       child: widget.searchFocusNode.hasFocus
                           ? InkWell(
-                        child: Icon(
-                          widget.clearIconProperty?.icon ?? Icons.close,
-                          size: widget.clearIconProperty?.size,
-                          color: widget.clearIconProperty?.color,
-                        ),
-                      )
+                              child: Icon(
+                                widget.clearIconProperty?.icon ?? Icons.close,
+                                size: widget.clearIconProperty?.size,
+                                color: widget.clearIconProperty?.color,
+                              ),
+                            )
                           : const SizedBox.shrink(),
                     ),
                   ),
@@ -1285,12 +1275,14 @@ class _MultiSelectionState extends State<MultiSelection> {
                                   child: Row(
                                     children: [
                                       Checkbox(
-                                        value: multiSelectionValue[index],
+                                        value: newDropDownList[index]
+                                            .defaultIsSelect,
                                         onChanged: (value) {
                                           if (value != null) {
                                             setState(() {
-                                              multiSelectionValue[index] =
-                                                  value;
+                                              newDropDownList[index] =
+                                                  newDropDownList[index]
+                                                      .copyFromIsSelectChange();
                                             });
                                           }
                                         },
@@ -1327,8 +1319,7 @@ class _MultiSelectionState extends State<MultiSelection> {
                                         side: widget.checkBoxProperty?.side,
                                       ),
                                       Expanded(
-                                        child: Text(
-                                            newDropDownList[index].name,
+                                        child: Text(newDropDownList[index].name,
                                             style: widget.listTextStyle),
                                       ),
                                       if (newDropDownList[index].toolTipMsg !=
@@ -1365,7 +1356,9 @@ class _MultiSelectionState extends State<MultiSelection> {
                         right: 16.0, top: 15, bottom: 10.0, left: 16.0),
                     child: InkWell(
                       onTap: () {
-                        widget.onChanged(multiSelectionValue);
+                        widget.onChanged(newDropDownList
+                            .where((element) => element.defaultIsSelect)
+                            .toList());
                       },
                       child: Container(
                         alignment: Alignment.center,
@@ -1399,12 +1392,17 @@ class DropDownValueModel extends Equatable {
   final String name;
   final dynamic value;
   final String? svgIcon;
+  final bool defaultIsSelect;
 
   ///as of now only added for multiselection dropdown
   final String? toolTipMsg;
 
   const DropDownValueModel(
-      {required this.name, required this.value, this.toolTipMsg, this.svgIcon});
+      {required this.name,
+      required this.value,
+      this.toolTipMsg,
+      this.svgIcon,
+      this.defaultIsSelect = false});
 
   factory DropDownValueModel.fromJson(Map<String, dynamic> json) =>
       DropDownValueModel(
@@ -1418,6 +1416,15 @@ class DropDownValueModel extends Equatable {
         "value": value,
         "toolTipMsg": toolTipMsg,
       };
+
+  DropDownValueModel copyFromIsSelectChange() {
+    return DropDownValueModel(
+        name: name,
+        value: value,
+        toolTipMsg: toolTipMsg,
+        svgIcon: svgIcon,
+        defaultIsSelect: !defaultIsSelect);
+  }
 
   @override
   List<Object> get props => [name, value];
