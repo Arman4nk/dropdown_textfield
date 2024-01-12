@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
+
         primarySwatch: Colors.blue,
       ),
       home: const TestPage(),
@@ -35,6 +36,25 @@ class _TestPageState extends State<TestPage> {
   FocusNode textFieldFocusNode = FocusNode();
   late SingleValueDropDownController _cnt;
   late MultiValueDropDownController _cntMulti;
+
+  List<DropDownValueModel> mmdX = const [
+    DropDownValueModel(name: 'name1', value: "value1"),
+    DropDownValueModel(
+        name: 'name2',
+        value: "value2",
+        toolTipMsg:
+        "DropDownButton is a widget that we can use to select one unique value from a set of values"),
+    DropDownValueModel(name: 'name3', value: "value3"),
+    DropDownValueModel(
+        name: 'name4',
+        value: "value4",
+        toolTipMsg:
+        "DropDownButton is a widget that we can use to select one unique value from a set of values"),
+    DropDownValueModel(name: 'name5', value: "value5"),
+    DropDownValueModel(name: 'name6', value: "value6"),
+    DropDownValueModel(name: 'name7', value: "value7"),
+    DropDownValueModel(name: 'name8', value: "value8"),
+  ];
 
   @override
   void initState() {
@@ -69,26 +89,21 @@ class _TestPageState extends State<TestPage> {
 
                   // controller: _cntMulti,
                   // initialValue: const ["name1", "name2", "name8", "name3"],
-                  dropDownList: const [
-                    DropDownValueModel(name: 'name1', value: "value1"),
-                    DropDownValueModel(
-                        name: 'name2',
-                        value: "value2",
-                        toolTipMsg:
-                        "DropDownButton is a widget that we can use to select one unique value from a set of values"),
-                    DropDownValueModel(name: 'name3', value: "value3"),
-                    DropDownValueModel(
-                        name: 'name4',
-                        value: "value4",
-                        toolTipMsg:
-                        "DropDownButton is a widget that we can use to select one unique value from a set of values"),
-                    DropDownValueModel(name: 'name5', value: "value5"),
-                    DropDownValueModel(name: 'name6', value: "value6"),
-                    DropDownValueModel(name: 'name7', value: "value7"),
-                    DropDownValueModel(name: 'name8', value: "value8"),
-                  ],
+                  dropDownList: mmdX,
                   onChanged: (val) {
-                    setState(() {});
+                    if(val is List<DropDownValueModel>) {
+                      setState(() {
+                      mmdX = mmdX.map((e) {
+                        DropDownValueModel result = e;
+                        for(int i = 0 ; i < val.length ; i++){
+                          if(e.value == val[i].value && !e.defaultIsSelect){
+                            result = e.copyFromIsSelectChange();
+                          }
+                        }
+                        return result;
+                      }).toList();
+                    });
+                    }
                   },
                 ),
                 const SizedBox(
