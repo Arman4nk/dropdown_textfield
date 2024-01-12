@@ -93,15 +93,7 @@ class _TestPageState extends State<TestPage> {
                   onChanged: (val) {
                     if(val is List<DropDownValueModel>) {
                       setState(() {
-                      mmdX = mmdX.map((e) {
-                        DropDownValueModel result = e;
-                        for(int i = 0 ; i < val.length ; i++){
-                          if(e.value == val[i].value && !e.defaultIsSelect){
-                            result = e.copyFromIsSelectChange();
-                          }
-                        }
-                        return result;
-                      }).toList();
+                      mmdX = val;
                     });
                     }
                   },

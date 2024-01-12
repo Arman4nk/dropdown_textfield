@@ -877,7 +877,7 @@ class _DropDownTextFieldState extends State<DropDownTextField>
                           List<DropDownValueModel> result = val;
                           List completeList = val.map((e) => e.name).toList();
 
-                          int count = val.length;
+                          int count = val.where((element) => element.defaultIsSelect).toList().length;
 
                           _cnt.text = (count == 0
                               ? ""
@@ -1153,6 +1153,7 @@ class MultiSelection extends StatefulWidget {
 class _MultiSelectionState extends State<MultiSelection> {
   //List<bool> multiSelectionValue = [];
   late List<DropDownValueModel> newDropDownList;
+  late List<DropDownValueModel> allDropDownList;
   late TextEditingController _searchCnt;
   late FocusScopeNode _focusScopeNode;
   late InputDecoration _inpDec;
@@ -1172,6 +1173,7 @@ class _MultiSelectionState extends State<MultiSelection> {
 
   @override
   void initState() {
+    allDropDownList = widget.dropDownList;
     //  multiSelectionValue = List.from(widget.list);
     _focusScopeNode = FocusScopeNode();
     _inpDec = widget.searchDecoration ?? InputDecoration();
@@ -1283,6 +1285,13 @@ class _MultiSelectionState extends State<MultiSelection> {
                                               newDropDownList[index] =
                                                   newDropDownList[index]
                                                       .copyFromIsSelectChange();
+                                              allDropDownList = allDropDownList.map((e) {
+                                                DropDownValueModel temp = e;
+                                                if(e.value == newDropDownList[index].value){
+                                                  temp = e.copyFromIsSelectChange();
+                                                }
+                                                return temp;
+                                              }).toList();
                                             });
                                           }
                                         },
@@ -1356,9 +1365,7 @@ class _MultiSelectionState extends State<MultiSelection> {
                         right: 16.0, top: 15, bottom: 10.0, left: 16.0),
                     child: InkWell(
                       onTap: () {
-                        widget.onChanged(newDropDownList
-                            .where((element) => element.defaultIsSelect)
-                            .toList());
+                        widget.onChanged(allDropDownList);
                       },
                       child: Container(
                         alignment: Alignment.center,
