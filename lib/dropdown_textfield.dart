@@ -875,7 +875,7 @@ class _DropDownTextFieldState extends State<DropDownTextField>
                         if (val is List<DropDownValueModel>) {
                           _isExpanded = !_isExpanded;
                           List<DropDownValueModel> result = val;
-                          List completeList = val.map((e) => e.name).toList();
+                          List completeList = val.where((element) => element.defaultIsSelect).map((e) => e.name).toList();
 
                           int count = val.where((element) => element.defaultIsSelect).toList().length;
 

@@ -86,7 +86,7 @@ class _TestPageState extends State<TestPage> {
                 ),
                 DropDownTextField.multiSelection(
                   enableSearch: true,
-
+                  displayCompleteItem: true,
                   // controller: _cntMulti,
                   // initialValue: const ["name1", "name2", "name8", "name3"],
                   dropDownList: mmdX,
