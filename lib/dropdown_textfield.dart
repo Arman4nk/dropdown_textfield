@@ -128,6 +128,7 @@ class DropDownTextField extends StatefulWidget {
       this.listPadding,
       this.listTextStyle,
       this.listBackColor,
+      this. searchDecoration,
       this.enableSearch = false,
       this.checkBoxProperty,
       this.autovalidateMode})
@@ -145,7 +146,6 @@ class DropDownTextField extends StatefulWidget {
         searchKeyboardType = null,
         searchShowCursor = null,
         singleController = null,
-        searchDecoration = null,
         keyboardType = null,
         // keyboardHeight = 0,
         super(key: key);
