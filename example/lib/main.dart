@@ -86,6 +86,7 @@ class _TestPageState extends State<TestPage> {
                 ),
                 DropDownTextField.multiSelection(
                   enableSearch: true,
+                  listBackColor: Colors.redAccent,
                   displayCompleteItem: true,
                   // controller: _cntMulti,
                   // initialValue: const ["name1", "name2", "name8", "name3"],

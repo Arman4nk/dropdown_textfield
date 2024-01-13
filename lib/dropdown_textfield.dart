@@ -1252,8 +1252,7 @@ class _MultiSelectionState extends State<MultiSelection> {
           Container(
             decoration: BoxDecoration(
                 color: widget.listBackColor,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(8), topRight: Radius.circular(8))),
+               ),
             height: widget.height,
             child: Scrollbar(
               child: ListView.builder(
