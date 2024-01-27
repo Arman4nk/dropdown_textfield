@@ -38,7 +38,7 @@ class _TestPageState extends State<TestPage> {
   late MultiValueDropDownController _cntMulti;
 
   List<DropDownValueModel> mmdX = const [
-    DropDownValueModel(name: 'name1', value: "value1"),
+    DropDownValueModel(name: 'name1', value: "value1",defaultIsSelect: true),
     DropDownValueModel(
         name: 'name2',
         value: "value2",
