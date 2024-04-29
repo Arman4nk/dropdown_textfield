@@ -693,7 +693,7 @@ class _DropDownTextFieldState extends State<DropDownTextField>
         ),
       );
     });
-    overlay2?.insert(_barrierOverlay!);
+    overlay2.insert(_barrierOverlay!);
   }
 
   void hideOverlay() {
@@ -876,7 +876,6 @@ class _DropDownTextFieldState extends State<DropDownTextField>
                           _isExpanded = !_isExpanded;
                           List<DropDownValueModel> result = val;
                           List completeList = val.where((element) => element.defaultIsSelect).map((e) => e.name).toList();
-
                           int count = val.where((element) => element.defaultIsSelect).toList().length;
 
                           _cnt.text = (count == 0
@@ -1181,7 +1180,7 @@ class _MultiSelectionState extends State<MultiSelection> {
     //  multiSelectionValue = List.from(widget.list);
     _focusScopeNode = FocusScopeNode();
     _inpDec = widget.searchDecoration ?? InputDecoration();
-    if (widget.searchAutofocus) {
+    if (/*widget.searchAutofocus*/true) {
       widget.searchFocusNode.requestFocus();
     }
     _focusScopeNode.requestFocus();
@@ -1204,8 +1203,7 @@ class _MultiSelectionState extends State<MultiSelection> {
       borderRadius: BorderRadius.circular(8),
       child: Column(
         children: [
-          if (widget.enableSearch)
-            Container(
+          if (widget.enableSearch)Container(
               color: widget.listBackColor,
               height: widget.searchHeight,
               child: Padding(
@@ -1254,9 +1252,7 @@ class _MultiSelectionState extends State<MultiSelection> {
               ),
             ),
           Container(
-            decoration: BoxDecoration(
-                color: widget.listBackColor,
-               ),
+            decoration: BoxDecoration( color: widget.listBackColor ),
             height: widget.height,
             child: Scrollbar(
               child: ListView.builder(
@@ -1280,14 +1276,12 @@ class _MultiSelectionState extends State<MultiSelection> {
                                   child: Row(
                                     children: [
                                       Checkbox(
-                                        value: newDropDownList[index]
-                                            .defaultIsSelect,
+                                        value: newDropDownList[index].defaultIsSelect,
                                         onChanged: (value) {
                                           if (value != null) {
                                             setState(() {
                                               newDropDownList[index] =
-                                                  newDropDownList[index]
-                                                      .copyFromIsSelectChange();
+                                                  newDropDownList[index].copyFromIsSelectChange();
                                               allDropDownList = allDropDownList.map((e) {
                                                 DropDownValueModel temp = e;
                                                 if(e.value == newDropDownList[index].value){
@@ -1298,35 +1292,19 @@ class _MultiSelectionState extends State<MultiSelection> {
                                             });
                                           }
                                         },
-                                        tristate:
-                                            widget.checkBoxProperty?.tristate ??
-                                                false,
-                                        mouseCursor: widget
-                                            .checkBoxProperty?.mouseCursor,
-                                        activeColor: widget
-                                            .checkBoxProperty?.activeColor,
-                                        fillColor:
-                                            widget.checkBoxProperty?.fillColor,
-                                        checkColor:
-                                            widget.checkBoxProperty?.checkColor,
-                                        focusColor:
-                                            widget.checkBoxProperty?.focusColor,
-                                        hoverColor:
-                                            widget.checkBoxProperty?.hoverColor,
-                                        overlayColor: widget
-                                            .checkBoxProperty?.overlayColor,
-                                        splashRadius: widget
-                                            .checkBoxProperty?.splashRadius,
-                                        materialTapTargetSize: widget
-                                            .checkBoxProperty
-                                            ?.materialTapTargetSize,
-                                        visualDensity: widget
-                                            .checkBoxProperty?.visualDensity,
-                                        focusNode:
-                                            widget.checkBoxProperty?.focusNode,
-                                        autofocus: widget
-                                                .checkBoxProperty?.autofocus ??
-                                            false,
+                                        tristate: widget.checkBoxProperty?.tristate ?? false,
+                                        mouseCursor: widget.checkBoxProperty?.mouseCursor,
+                                        activeColor: widget.checkBoxProperty?.activeColor,
+                                        fillColor: widget.checkBoxProperty?.fillColor,
+                                        checkColor: widget.checkBoxProperty?.checkColor,
+                                        focusColor: widget.checkBoxProperty?.focusColor,
+                                        hoverColor: widget.checkBoxProperty?.hoverColor,
+                                        overlayColor: widget.checkBoxProperty?.overlayColor,
+                                        splashRadius: widget.checkBoxProperty?.splashRadius,
+                                        materialTapTargetSize: widget.checkBoxProperty?.materialTapTargetSize,
+                                        visualDensity: widget.checkBoxProperty?.visualDensity,
+                                        focusNode: widget.checkBoxProperty?.focusNode,
+                                        autofocus: widget.checkBoxProperty?.autofocus ?? false,
                                         shape: widget.checkBoxProperty?.shape,
                                         side: widget.checkBoxProperty?.side,
                                       ),

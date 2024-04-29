@@ -1,4 +1,5 @@
 import 'package:dropdown_textfield/dropdown_textfield.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -13,12 +14,22 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+
       title: 'Flutter Demo',
       theme: ThemeData(
 
         primarySwatch: Colors.blue,
       ),
-      home: const TestPage(),
+      home: ScrollConfiguration(
+          behavior: ScrollConfiguration.of(context).copyWith(
+            physics: const BouncingScrollPhysics(),
+            dragDevices: {
+              PointerDeviceKind.touch,
+              PointerDeviceKind.mouse,
+              PointerDeviceKind.trackpad
+            },
+          ),
+          child: const TestPage()),
     );
   }
 }
@@ -38,11 +49,12 @@ class _TestPageState extends State<TestPage> {
   late MultiValueDropDownController _cntMulti;
 
   List<DropDownValueModel> mmdX = const [
-    DropDownValueModel(name: 'name1', value: "value1",defaultIsSelect: true),
+    DropDownValueModel(name: 'name1', value: "value1",/*defaultIsSelect: true*/),
     DropDownValueModel(
         name: 'name2',
         value: "value2",
         toolTipMsg:
+
         "DropDownButton is a widget that we can use to select one unique value from a set of values"),
     DropDownValueModel(name: 'name3', value: "value3"),
     DropDownValueModel(
